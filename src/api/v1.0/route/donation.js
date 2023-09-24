@@ -7,8 +7,8 @@ const donation_controller = require("../../../controllers/donationController")
 
 
 router.post('/create', donation_controller.donate);
-router.get('/getusersdonation', donation_controller.getUserDonations);
-router.get('/getsingleuserdonations/:id', donation_controller.getUserDonations);
+router.get("/getallusersdonation", donation_controller.getUserDonations);
+router.get("/getuserdonations/:id", donation_controller.getUserDonations);
 
 
 

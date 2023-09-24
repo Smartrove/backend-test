@@ -64,33 +64,74 @@ exports.donate = async (req, res) => {
 
 
 
-exports.getUserDonations = async(req, res)=>{
-    const{user_id} = req.body
-        Donation.findOne({
-            where: {
-                user_id
-            },
-            attributes: ['receiver_id']
-
-        }).then((donations) => {
-            console.log(donations);
-            res.status(200).send(response.responseSuccess(donations, true, "user Donations retrieve successfully!", 200));
-        }).catch((error) => {
-            console.log(error.message);
-            res.status(400).send(response.responseError(error.message, false, "Sorry! unable to retrieve donations", "Sorry! unable to retrieve donations", 400));
-        });
-}
-exports.getSingleUserDonations = async(req, res)=>{
-        Donation.findOne({
-            order: [['createdAt', 'DESC']],
-        }).then((donations) => {
-            console.log(donations);
-            res.status(200).send(response.responseSuccess(donations, true, "Donations retrieve successfully!", 200));
-        }).catch((error) => {
-            console.log(error.message);
-            res.status(400).send(response.responseError(error.message, false, "Sorry! unable to retrieve donations", "Sorry! unable to retrieve donations", 400));
-        });
-}
+exports.getUserDonations = async (req, res) => {
+  const { user_id } = req.body;
+  Donation.findAll({
+    order: [["createdAt", "DESC"]],
+  })
+    .then((donations) => {
+      console.log(donations);
+      res
+        .status(200)
+        .send(
+          response.responseSuccess(
+            donations,
+            true,
+            "user Donations retrieve successfully!",
+            200
+          )
+        );
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res
+        .status(400)
+        .send(
+          response.responseError(
+            error.message,
+            false,
+            "Sorry! unable to retrieve donations",
+            "Sorry! unable to retrieve donations",
+            400
+          )
+        );
+    });
+};
+exports.getSingleUserDonations = async (req, res) => {
+  Donation.findOne({
+    where: {
+      user_id,
+    },
+    attributes: ["user_id", "receiver_id", "donatedAmount"],
+  })
+    .then((donations) => {
+      console.log(donations);
+      res
+        .status(200)
+        .send(
+          response.responseSuccess(
+            donations,
+            true,
+            "Donations retrieve successfully!",
+            200
+          )
+        );
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res
+        .status(400)
+        .send(
+          response.responseError(
+            error.message,
+            false,
+            "Sorry! unable to retrieve donations",
+            "Sorry! unable to retrieve donations",
+            400
+          )
+        );
+    });
+};
 
 
 

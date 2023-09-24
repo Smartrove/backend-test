@@ -20,7 +20,13 @@ if (process.env.NODE_ENV == "test") { //for UNIT TESTING
 } else {
     router.get('/', index_controller.index);
     router.use('/auth', cors(), authRouter);
-    // router.use('/user', cors(), auth, passport.authenticate('jwt', { session: false }), usersRouter);
+    router.use(
+      "/user",
+      cors(),
+      auth,
+      passport.authenticate("jwt", { session: false }),
+      usersRouter
+    );
     router.use('/user', 
     cors(), 
     // auth, 

@@ -19,44 +19,99 @@ const Wallet = require('../../models').Wallet;
 
 
 
-// POST: Create Transaction Pin for a User
 exports.createWallet = async (req, res) => {
-    try {
-        exports.getBalance = async (req, res) => {
-            const userId = req.params.userId;
-            try {
-              const wallet = await Wallet.findOne({ where: { userId } });
-              if (wallet) {
-                return res.status(200).send(response.responseSuccess(wallet.balance, true, 'Wallet balance retrieved successfully.', 200));
-              } else {
-                return res.status(404).send(response.responseError([], false, 'Wallet not found for the user.', 'Wallet not found for the user.', 404));
-              }
-            } 
-            catch (error) {
-              console.error(error.message);
-              return res.status(500).send(response.responseError(error.message, false, 'Failed to retrieve wallet balance.', 'Failed to retrieve wallet balance.', 500));
-            }}
+  const { user_id } = req.body;
 
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).send(response.responseError(error.message, false, 'Sorry! Failed to create transaction PIN.', 'Sorry! Failed to create transaction PIN.', 500));
+  try {
+    // Check if a wallet already exists for the user
+    const existingWallet = await Wallet.findOne({ where: { user_id } });
+
+    if (existingWallet) {
+      return res
+        .status(400)
+        .send(
+          response.responseError(
+            [],
+            false,
+            "Wallet already exists for the user.",
+            "Wallet already exists for the user.",
+            400
+          )
+        );
     }
+
+    // Create a new wallet for the user
+    const newWallet = await Wallet.create({
+      user_id, // Assuming the Wallet model has a 'userId' field
+      balance: 0, // You can set the initial balance as needed
+    });
+
+    return res
+      .status(201)
+      .send(
+        response.responseSuccess(
+          newWallet,
+          true,
+          "Wallet created successfully.",
+          201
+        )
+      );
+  } catch (error) {
+    console.error(error.message);
+    return res
+      .status(500)
+      .send(
+        response.responseError(
+          error.message,
+          false,
+          "Sorry! Failed to create wallet.",
+          "Sorry! Failed to create wallet.",
+          500
+        )
+      );
+  }
 };
 
-exports.addFunds = async (req, res) => {
-    const userId = req.params.userId;
-    const { amount } = req.body;
-    try {
-      const wallet = await Wallet.findOne({ where: { userId } });
-      if (wallet) {
-        wallet.balance += parseFloat(amount);
-        await wallet.save();
-        return res.status(200).send(response.responseSuccess(wallet.balance, true, 'Funds added to the wallet successfully.', 200));
-      } else {
-        return res.status(404).send(response.responseError([], false, 'Wallet not found for the user.', 'Wallet not found for the user.', 404));
-      }
-    } catch (error) {
-      console.error(error.message);
-      return res.status(500).send(response.responseError(error.message, false, 'Failed to add funds to the wallet.', 'Failed to add funds to the wallet.', 500));
+exports.getBalance = async (req, res) => {
+  try {
+    const wallet = await Wallet.findOne({ where: { userId: user_id } });
+    if (wallet) {
+      return res
+        .status(200)
+        .send(
+          response.responseSuccess(
+            wallet.balance,
+            true,
+            "Wallet balance retrieved successfully.",
+            200
+          )
+        );
+    } else {
+      return res
+        .status(404)
+        .send(
+          response.responseError(
+            [],
+            false,
+            "Wallet not found for the user.",
+            "Wallet not found for the user.",
+            404
+          )
+        );
     }
-  };
+  } catch (error) {
+    console.error(error.message);
+    return res
+      .status(500)
+      .send(
+        response.responseError(
+          error.message,
+          false,
+          "Failed to retrieve wallet balance.",
+          "Failed to retrieve wallet balance.",
+          500
+        )
+      );
+  }
+};
+
