@@ -1,0 +1,5 @@
+node_modules
+public/images/
+src/public/images
+# package-lock.json
+.env

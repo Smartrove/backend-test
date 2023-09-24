@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "case-diary",
+    "builds": [
+       { "src": "app.js", "use": "@vercel/node" }
+    ],
+    "routes": [
+       { "src": "/(.*)", "dest": "/app.js" }
+    ]
+ }
