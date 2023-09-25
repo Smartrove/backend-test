@@ -23,24 +23,31 @@ if (process.env.NODE_ENV == "test") { //for UNIT TESTING
     router.use(
       "/user",
       cors(),
-      auth,
-      passport.authenticate("jwt", { session: false }),
+      // auth,
+      // passport.authenticate("jwt", { session: false }),
       usersRouter
     );
-    router.use('/user', 
-    cors(), 
-    // auth, 
-    // passport.authenticate('jwt', { session: false }), 
-    usersRouter);
-    router.use('/wallet', 
-    // auth, 
-    cors(), walletRouter)
-    router.use('/donation',
-    //  auth, 
-     cors(), donationRouter)
-    router.use('/transactionPin', 
-    // auth, 
-    cors(), transactionPinRouter)
+    router.use(
+      "/wallet",
+      cors(),
+      auth,
+      passport.authenticate("jwt", { session: false }),
+      walletRouter
+    );
+    router.use(
+      "/donation",
+      cors(),
+      auth,
+      passport.authenticate("jwt", { session: false }),
+      donationRouter
+    );
+    router.use(
+      "/transactionPin",
+      cors(),
+      auth,
+      passport.authenticate("jwt", { session: false }),
+      transactionPinRouter
+    );
 }
 
 module.exports = router;

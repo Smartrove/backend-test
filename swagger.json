@@ -1,331 +1,421 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "Fasta Money Assessment - Admin API With Node.js",
-        "description": "Fasta Money Assessment - Admin Project Application API",
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "FastaMoni Assessment - API With Node.js",
+    "description": "FastaMoni Assessment - Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/api/v1.0",
+  "tags": [
+    {
+      "name": "FastaMoni Assessment - API With Node.js",
+      "description": "FastaMoni Assessment - Application API"
+    }
+  ],
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "headers",
+      "name": "authorization"
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/user/create": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Create new user in the system",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "description": "User that we want to create",
+            "required": "true",
+            "schema": {
+              "required": ["username", "fullname", "email", "password", "dob"],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "fullname": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "dob": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
         }
+      }
     },
-    "host": "localhost:5000",
-    "basePath": "/api/v1.0",
-    "tags": [
-        {
-            "name": "Fasta Money Assessment - Admin",
-            "description": "API for Fasta Money Assessment - Admin Application system"
+    "/user/getallusers": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
         }
-    ],
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "in": "headers",
-            "name": "authorization"
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "paths": {
-        "/user/create": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Create new user in the system",
-                "parameters": [
-                    {
-                        "name": "User",
-                        "in": "body",
-                        "description": "User that we want to create",
-                        "required": "true",
-                        "schema": {
-                            "required": [
-                                "first_name",
-                                "last_name",
-                                "email"
-                            ],
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "first_name": {
-                                    "type": "string"
-                                },
-                                "last_name": {
-                                    "type": "string"
-                                },
-                                "other_name": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "New user is created",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/list": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get all users in the system",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/show/{userId}": {
-            "parameters": [
-                {
-                    "name": "userId",
-                    "in": "path",
-                    "required": true,
-                    "description": "ID of user that we want to find",
-                    "type": "integer"
-                }
-            ],
-            "get": {
-                "summary": "Get a user with a given userId",
-                "tags": [
-                    "Users"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "UserId is returned",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/login": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Get authenticated into the system",
-                "parameters": [
-                    {
-                        "name": "Login Details",
-                        "in": "body",
-                        "description": "Login to your account",
-                        "schema": {
-                            "$ref": "#/definitions/Login"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User was authenticated",
-                        "schema": {
-                            "$ref": "#/definitions/Login-Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/forgot-password": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Forget password in the system",
-                "parameters": [
-                    {
-                        "name": "User",
-                        "in": "body",
-                        "description": "User forget password",
-                        "required": "true",
-                        "schema": {
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User forget password",
-                        "schema": {
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/reset-password": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Forget password in the system",
-                "parameters": [
-                    {
-                        "name": "User",
-                        "in": "body",
-                        "description": "User forget password",
-                        "required": "true",
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "confirm_password": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User forget password",
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "confirm_password": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      }
     },
     "definitions": {
-        "User": {
-            "required": [
-                "first_name",
-                "last_name",
-                "email",
-                "password"
-            ],
-            "optional": [
-                "other_name",
-                "role_id"
-            ],
-            "properties": {
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "other_name": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
-                "password": {
-                    "passwordHash": {
-                        "type": "string",
-                        "format": "password",
-                        "maxLength": 0
-                    }
-                },
-                "role_id": {
-                    "type": "integer"
-                }
+      "User": {
+        "required": ["fullname", "username", "email", "password"],
+        "optional": ["dob"],
+        "properties": {
+          "fullname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "passwordHash": {
+              "type": "string",
+              "format": "password",
+              "maxLength": 0
             }
-        },
-        "Login": {
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "uniqueItems": true,
-                    "default": "mbr@gmail.com"
-                },
-                "password": {
-                    "passwordHash": {
-                        "type": "string",
-                        "format": "password",
-                        "maxLength": 0
-                    },
-                    "default": "12345",
-                    "type": "string"
-                }
-            }
-        },
-        "Login-Response": {
-            "properties": {
-                "success": {
-                    "type": "boolean",
-                    "default": false
-                },
-                "token": {
-                    "type": "string"
-                }
-            }
+          }
         }
+      },
+      "Login": {
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "uniqueItems": true,
+            "default": "mbr@gmail.com"
+          },
+          "password": {
+            "passwordHash": {
+              "type": "string",
+              "format": "password",
+              "maxLength": 0
+            },
+            "default": "12345",
+            "type": "string"
+          }
+        }
+      },
+      "Login-Response": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Get authenticated into the system",
+        "parameters": [
+          {
+            "name": "Login Details",
+            "in": "body",
+            "description": "Login to your account",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User was authenticated",
+            "schema": {
+              "$ref": "#/definitions/Login-Response"
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgotpassword": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Forget password in the system",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "description": "User forget password",
+            "required": "true",
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User forget password",
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resetpassword": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Forget password in the system",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "description": "User forget password",
+            "required": "true",
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "confirm_password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User forget password",
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "confirm_password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/donation/create": {
+      "post": {
+        "tags": ["Donations"],
+        "description": "user create donation in the system",
+        "parameters": [
+          {
+            "name": "Donation",
+            "in": "body",
+            "description": "Donation that we want to create",
+            "required": "true",
+            "schema": {
+              "required": ["user_id", "receiver_id", "donatedAmount"],
+              "properties": {
+                "user_id": {
+                  "type": "string"
+                },
+                "receiver_id": {
+                  "type": "string"
+                },
+                "donatedAmount": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New donation is created",
+            "schema": {
+              "$ref": "#/definitions/Donation"
+            }
+          }
+        }
+      }
+    },
+    "/donation/getallusersdonation": {
+      "get": {
+        "tags": ["Donations"],
+        "summary": "Get all users donation in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Donation"
+            }
+          }
+        }
+      }
+    },
+    "/donation/getsingleuserdonations/:user_id": {
+      "get": {
+        "tags": ["Donations"],
+        "summary": "Get single user donation in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Donation"
+            }
+          }
+        }
+      }
+    },
+    "/donation/getuserdonationcounts/:user_id": {
+      "get": {
+        "tags": ["Donations"],
+        "summary": "Get user donation count in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Donation"
+            }
+          }
+        }
+      }
+    },
+    "/transactionPin/create": {
+      "post": {
+        "tags": ["Transaction_Pin"],
+        "description": "user create transaction pin in the system",
+        "parameters": [
+          {
+            "name": "",
+            "in": "body",
+            "description": "Transaction pin that we want to create",
+            "required": "true",
+            "schema": {
+              "required": ["user_id", "pin"],
+              "properties": {
+                "user_id": {
+                  "type": "string"
+                },
+                "pin": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "transaction pin created successfully",
+            "schema": {
+              "$ref": "#/definitions/Transaction_Pin"
+            }
+          }
+        }
+      }
+    },
+    "/wallet/create": {
+      "post": {
+        "tags": ["Wallets"],
+        "description": "Create new wallet in the system",
+        "parameters": [
+          {
+            "name": "Wallet",
+            "in": "body",
+            "description": "Wallet that we want to create",
+            "required": "true",
+            "schema": {
+              "required": ["user_id"],
+              "properties": {
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New wallet is created",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        }
+      }
+    },
+    "/wallet/getbalance/:user_id": {
+      "get": {
+        "tags": ["Wallet"],
+        "summary": "Get user wallet count in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        }
+      }
     }
+  }
 }

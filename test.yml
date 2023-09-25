@@ -1,0 +1,52 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 30
+      arrivalRate: 100
+
+scenarios:
+  - name: "Retrieve data"
+    flow:
+      - get:
+          url: "/api/v1.0/user/getallusers"
+      - post:
+          url: "/api/v1.0/auth/login"
+          json:
+            username: "ola@test.com"
+            password: "123456"
+      - post: 
+          url: "/api/v1.0/user/create"
+          json:
+            username: "ola123456@test.com"
+            password: "123456"
+      - post: 
+          url: "/api/v1.0/donation/create"
+          json:
+            user_id : 4,
+            receiver_id : 3,
+            donatedAmount : "5000"
+      - post: 
+          url: "/api/v1.0/transactionPin/create"
+          json:
+            user_id : 4,
+            pin: "3333"
+      - post:
+          url: "/api/v1.0/wallet/create"
+          json:
+            user_id : 3
+      - get: 
+          url: "/api/v1.0/user/getallusersdonation"
+      - get:
+          url: "/api/v1.0/user/getallusers"
+      - get:
+          url: "/api/v1.0/wallet/getbalance/2"
+      - get:
+          url: "/api/v1.0/donation/getsingleuserdonations/3"
+      - get:
+          url: "/api/v1.0/donation/getuserdonationcounts/1"
+      - post:
+          url: "/api/v1.0/donation/getsingledonationtouser/4"
+          json:
+            donation_id : 3
+
+

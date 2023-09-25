@@ -17,7 +17,7 @@ This service should
 - Allow a user check how many donations he/she has made
 - Have ability to a special thank you message via email or sms or any communication channel, if they make two(2) or more donations.
 - Allow a user view all donation made in a given period of time.
-- Allow a user view a single donation made to a fellow user (beneficiary)
+- Allow a user view a single donation made to a fellow user (beneficiary).
 
 ### Documentation
 

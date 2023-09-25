@@ -7,7 +7,7 @@ const wallet_controller = require("../../../controllers/walletController")
 
 
 router.post('/create',  wallet_controller.createWallet);
-router.post("/getbalance", wallet_controller.getBalance);
+router.get("/getbalance/:user_id", wallet_controller.getBalance);
 
 
 

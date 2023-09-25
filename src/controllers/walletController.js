@@ -42,8 +42,8 @@ exports.createWallet = async (req, res) => {
 
     // Create a new wallet for the user
     const newWallet = await Wallet.create({
-      user_id, // Assuming the Wallet model has a 'userId' field
-      balance: 0, // You can set the initial balance as needed
+      user_id,
+      balance: 0,
     });
 
     return res
@@ -73,8 +73,9 @@ exports.createWallet = async (req, res) => {
 };
 
 exports.getBalance = async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const wallet = await Wallet.findOne({ where: { userId: user_id } });
+    const wallet = await Wallet.findOne({ where: { user_id } });
     if (wallet) {
       return res
         .status(200)
