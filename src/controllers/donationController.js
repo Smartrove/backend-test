@@ -16,6 +16,7 @@ const bcrypt = require("bcryptjs");
 const Path = require("path");
 const Moment = require("moment");
 const Donation = require("../../models").Donation;
+const { validationResult } = require("express-validator");
 
 const transporter = require("../../config/nodemailer");
 
@@ -24,6 +25,11 @@ const userDonationCounts = new Map();
 
 // POST: Create Donation
 exports.donate = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     // Check if required parameters are present in the request body
     if (!req.body.user_id || !req.body.receiver_id || !req.body.donatedAmount) {

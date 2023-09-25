@@ -4,9 +4,9 @@ const cors = require('cors');
 const passport = require('passport');
 require('../../../../config/passport')(passport);
 const donation_controller = require("../../../controllers/donationController")
+const createDonationValidations = require("../../../../middleware/fields_validation");
 
-
-router.post('/create', donation_controller.donate);
+router.post("/create", createDonationValidations, donation_controller.donate);
 router.get("/getallusersdonation", donation_controller.getUserDonations);
 router.get(
   "/getsingleuserdonations/:user_id",

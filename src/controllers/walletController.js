@@ -13,13 +13,15 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const Path = require("path");
 const Moment = require('moment');
-const Wallet = require('../../models').Wallet;
-
-
-
-
+const { validationResult } = require("express-validator");
+const Wallet = require("../../models").Wallet;
 
 exports.createWallet = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const { user_id } = req.body;
 
   try {
